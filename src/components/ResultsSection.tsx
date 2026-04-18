@@ -25,7 +25,7 @@ export const ResultsSection: React.FC<ResultsSectionProps> = ({ data, results })
   }
 
   const { d10, d50, d90, span, regression } = results;
-  const ssa = calculateSSA(d10, d50, d90, data.density, data.sphericity);
+  const ssa = calculateSSA(d10, d50, d90, Number(data.density), Number(data.sphericity));
 
   const curveData = [];
   for (let s = 1; s <= 1000; s *= 1.2) {
