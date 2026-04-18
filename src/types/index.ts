@@ -1,13 +1,13 @@
 export interface MeshInput {
   mesh: string;
-  retained: number; // Percentage
+  retained: number | string; // Percentage
 }
 
 export interface AnalysisData {
   label: string;
   meshInputs: MeshInput[];
-  density: number;
-  sphericity: number;
+  density: number | string;
+  sphericity: number | string;
 }
 
 export interface HistoryItem {

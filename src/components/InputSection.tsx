@@ -10,8 +10,18 @@ interface InputSectionProps {
 export const InputSection: React.FC<InputSectionProps> = ({ data, setData }) => {
   const updateMesh = (index: number, value: string) => {
     const newInputs = [...data.meshInputs];
-    newInputs[index].retained = Number(value);
+    // If value is empty string, keep it empty to allow erasing.
+    // Otherwise, convert to number.
+    (newInputs[index] as any).retained = value === "" ? "" : Number(value);
     setData({ ...data, meshInputs: newInputs });
+  };
+
+  const updateDensity = (value: string) => {
+    setData({ ...data, density: value === "" ? "" : Number(value) } as any);
+  };
+
+  const updateSphericity = (value: string) => {
+    setData({ ...data, sphericity: value === "" ? "" : Number(value) } as any);
   };
 
   return (
@@ -37,7 +47,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ data, setData }) => 
             <input
               type="number"
               value={data.density}
-              onChange={(e) => setData({ ...data, density: Number(e.target.value) })}
+              onChange={(e) => updateDensity(e.target.value)}
               className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
             />
           </div>
@@ -47,7 +57,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ data, setData }) => 
               type="number"
               step="0.1"
               value={data.sphericity}
-              onChange={(e) => setData({ ...data, sphericity: Number(e.target.value) })}
+              onChange={(e) => updateSphericity(e.target.value)}
               className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
             />
           </div>
@@ -67,6 +77,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ data, setData }) => 
                 type="number"
                 value={input.retained}
                 onChange={(e) => updateMesh(idx, e.target.value)}
+                onFocus={(e) => e.target.value === "0" && updateMesh(idx, "")}
                 className="flex-1 px-3 py-1.5 border rounded-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none"
               />
             </div>
